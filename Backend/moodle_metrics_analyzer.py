@@ -26,7 +26,30 @@ class DescriptiveStatsEngine:
     """Handles generation of descriptive statistics."""
     @staticmethod
     def calculate_numeric_stats(df, group_col, numeric_cols):
-        return df.groupby(group_col)[numeric_cols].describe()
+        groups = df.groupby(group_col)
+        result_rows = []
+        
+        group_headers = {}
+        for name, group in groups:
+            group_headers[name] = f"Grupo {name} (n={len(group)})"
+
+        banned_cols=["Microciclo", "Iteración"]
+            
+        for col in numeric_cols:
+            if col in banned_cols:
+                continue
+            row = {"Métrica": f"{col}, media (DE)"}
+            for name, group in groups:
+                mean = group[col].mean()
+                std = group[col].std()
+                if pd.isna(mean):
+                    row[group_headers[name]] = "N/A"
+                else:
+                    std_val = 0.0 if pd.isna(std) else std
+                    row[group_headers[name]] = f"{mean:.1f} ({std_val:.1f})"
+            result_rows.append(row)
+            
+        return pd.DataFrame(result_rows)
     
     @staticmethod
     def calculate_categorical_distribution(df, group_col, cat_col):

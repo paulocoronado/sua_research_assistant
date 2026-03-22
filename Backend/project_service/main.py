@@ -54,14 +54,20 @@ def analyze_metrics():
         numeric_tests = []
         num_csv = os.path.join(output_dir, "comparative_numeric_tests.csv")
         if os.path.exists(num_csv):
-            numeric_tests = pd.read_csv(num_csv).to_dict(orient="records")
+            numeric_tests = pd.read_csv(num_csv).replace({np.nan: None}).to_dict(orient="records")
             
         categorical_tests = []
         cat_csv = os.path.join(output_dir, "comparative_categorical_tests.csv")
         if os.path.exists(cat_csv):
-            categorical_tests = pd.read_csv(cat_csv).to_dict(orient="records")
+            categorical_tests = pd.read_csv(cat_csv).replace({np.nan: None}).to_dict(orient="records")
+            
+        desc_tests = []
+        desc_csv = os.path.join(output_dir, "descriptive_stats_numeric.csv")
+        if os.path.exists(desc_csv):
+            desc_tests = pd.read_csv(desc_csv).replace({np.nan: None}).to_dict(orient="records")
             
         return {
+            "descriptive_stats": desc_tests,
             "numeric_tests": numeric_tests,
             "categorical_tests": categorical_tests,
             "images": [f"/metrics_output/plot_{cat}.png" for cat in actual_cat_cols],

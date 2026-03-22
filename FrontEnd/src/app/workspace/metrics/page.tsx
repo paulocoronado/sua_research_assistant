@@ -47,6 +47,32 @@ export default function MetricsDashboard() {
         <div className={styles.results}>
           <div className={styles.successMsg}>{data.message}</div>
           
+          {data.descriptive_stats && data.descriptive_stats.length > 0 && (
+            <div className={styles.section}>
+              <h2>Estadística Descriptiva</h2>
+              <div className={styles.tableWrapper}>
+                <table className={styles.table}>
+                  <thead>
+                    <tr>
+                      {Object.keys(data.descriptive_stats[0]).map(key => (
+                        <th key={key}>{key !== "Unnamed: 0" ? key : ""}</th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {data.descriptive_stats.map((row: any, idx: number) => (
+                      <tr key={idx}>
+                        {Object.keys(row).map((key: string, vidx: number) => (
+                          <td key={vidx}>{key === "Unnamed: 0" ? "" : row[key]}</td>
+                        ))}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
+          
           <div className={styles.section}>
             <h2>Categorical Distributions (100% Stacked)</h2>
             <div className={styles.chartGrid}>
