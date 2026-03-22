@@ -24,6 +24,9 @@ export default function WorkspaceLayout({ children }: { children: React.ReactNod
           <div className={styles.navItem}><span className={styles.navIcon}>🗣️</span> {!collapsed && "Quotations"}</div>
           <div className={styles.navItem}><span className={styles.navIcon}>📝</span> {!collapsed && "Memos"}</div>
           <div className={styles.navItem}><span className={styles.navIcon}>🕸️</span> {!collapsed && "Networks"}</div>
+          <Link href="/workspace/sua_analysis" style={{ textDecoration: 'none', color: 'inherit' }}>
+            <div className={styles.navItem}><span className={styles.navIcon}>📊</span> {!collapsed && "SUA Analysis"}</div>
+          </Link>
         </nav>
       </aside>
       
