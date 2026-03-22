@@ -1,0 +1,7 @@
+,Variable,Test,p_value,Cramer_V
+0,Tipo de participación,Chi-square,0.64876873509182,0.1402080554336891
+1,Finalización de actividades (%),Chi-square (Warning: expected < 5),0.2583338666948385,0.45291324818781087
+2,Finalización por visualización,Chi-square,1.0,0.0
+3,Finalización por calificación,Chi-square,0.032616894091159844,0.32964265891617556
+4,Finalización del curso,Chi-square,0.021823497965306027,0.3484554582623883
+5,Riesgo de no finalización,Chi-square,0.002520928894151827,0.3608327137947946

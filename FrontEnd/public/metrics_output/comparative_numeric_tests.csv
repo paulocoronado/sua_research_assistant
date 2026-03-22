@@ -1,0 +1,43 @@
+,Variable,Normal,Test,p_value,PostHoc
+0,Microciclo,True,ANOVA,,None (p>=0.05)
+1,Iteración,True,ANOVA,,None (p>=0.05)
+2,Frec. accesos,True,ANOVA,0.0013435315917454912," Multiple Comparison of Means - Tukey HSD, FWER=0.05 
+=====================================================
+group1 group2 meandiff p-adj   lower    upper  reject
+-----------------------------------------------------
+    G1     G2  -0.9444 0.9419  -7.8304  5.9415  False
+    G1     G3  -9.6364 0.0022 -16.1617  -3.111   True
+    G2     G3  -8.6919 0.0107 -15.6462 -1.7376   True
+-----------------------------------------------------"
+3,N. participaciones,True,ANOVA,0.00021640109637906333,"Multiple Comparison of Means - Tukey HSD, FWER=0.05 
+====================================================
+group1 group2 meandiff p-adj   lower   upper  reject
+----------------------------------------------------
+    G1     G2  -0.3744 0.8952 -2.3804  1.6316  False
+    G1     G3  -3.2431 0.0004 -5.1441 -1.3421   True
+    G2     G3  -2.8687 0.0034 -4.8946 -0.8427   True
+----------------------------------------------------"
+4,Finalización de actividades (%),False,Kruskal-Wallis,0.00013382418127238518,"          G1        G2        G3
+G1  1.000000  1.000000  0.000685
+G2  1.000000  1.000000  0.001039
+G3  0.000685  0.001039  1.000000"
+5,Calificación por actividad (%),True,ANOVA,0.0005848836814791008," Multiple Comparison of Means - Tukey HSD, FWER=0.05 
+=====================================================
+group1 group2 meandiff p-adj   lower    upper  reject
+-----------------------------------------------------
+    G1     G2  -0.7077 0.9742  -8.5191  7.1036  False
+    G1     G3 -11.5158 0.0012 -18.9181 -4.1136   True
+    G2     G3 -10.8081 0.0047  -18.697 -2.9192   True
+-----------------------------------------------------"
+6,Calificación final (%),True,ANOVA,0.0005811776276989751," Multiple Comparison of Means - Tukey HSD, FWER=0.05 
+=====================================================
+group1 group2 meandiff p-adj   lower    upper  reject
+-----------------------------------------------------
+    G1     G2  -0.6763 0.9761  -8.4321  7.0794  False
+    G1     G3 -11.4289 0.0012 -18.7785 -4.0793   True
+    G2     G3 -10.7525 0.0046 -18.5853 -2.9198   True
+-----------------------------------------------------"
+7,Eventos monitorizados,False,Kruskal-Wallis,0.0014523059593642828,"          G1        G2        G3
+G1  1.000000  1.000000  0.004045
+G2  1.000000  1.000000  0.007992
+G3  0.004045  0.007992  1.000000"

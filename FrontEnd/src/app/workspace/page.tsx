@@ -1,3 +1,4 @@
+import Link from "next/link";
 import styles from "./page.module.css";
 
 export default function WorkspaceHome() {
@@ -9,6 +10,12 @@ export default function WorkspaceHome() {
       </div>
 
       <div className={styles.statsGrid}>
+        <div className={styles.statCard} style={{background: 'var(--primary-color, #0070f3)', color: 'white'}}>
+          <Link href="/workspace/metrics" style={{textDecoration: 'none', color: 'inherit'}}>
+            <h3 style={{color: 'white'}}>Analyze Moodle Metrics</h3>
+            <div className={styles.statValue}>➔ Run Now</div>
+          </Link>
+        </div>
         <div className={styles.statCard}>
           <h3>Documents</h3>
           <div className={styles.statValue}>12</div>
