@@ -6,3 +6,4 @@ scikit-posthocs
 matplotlib
 seaborn
 openpyxl
+httpx\npython-dotenv
