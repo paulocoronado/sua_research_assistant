@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, Legend } from 'recharts';
 import { format, fromUnixTime } from 'date-fns';
-import { GitBranch, GitCommit, FileCode, AlertCircle } from 'lucide-react';
+import { GitBranch, GitCommit, FileCode, AlertCircle, Users, Star, GitFork, FileText } from 'lucide-react';
 
 interface RepoDashboardProps {
   repoName: string;
@@ -13,8 +13,16 @@ export default function RepoDashboard({ repoName }: RepoDashboardProps) {
   const [error, setError] = useState<string | null>(null);
   const [commitData, setCommitData] = useState<any[]>([]);
   const [codeFreqData, setCodeFreqData] = useState<any[]>([]);
-  const [branchesCount, setBranchesCount] = useState<number>(0);
-  const [totalCommitsRecent, setTotalCommitsRecent] = useState<number>(0);
+  
+  const [metrics, setMetrics] = useState({
+    totalCommitsYear: 0,
+    totalCommitsAllTime: 0,
+    branchesCount: 0,
+    contributorsCount: 0,
+    filesCount: 0,
+    stars: 0,
+    forks: 0
+  });
 
   useEffect(() => {
     let isMounted = true;
@@ -26,7 +34,12 @@ export default function RepoDashboard({ repoName }: RepoDashboardProps) {
           query GitHubStats($owner: String!, $repo: String!) {
             githubRepoStats(owner: $owner, repo: $repo) {
               totalCommits
+              totalCommitsAllTime
               branchesCount
+              contributorsCount
+              filesCount
+              stars
+              forks
               commitActivity {
                 week
                 total
@@ -67,8 +80,7 @@ export default function RepoDashboard({ repoName }: RepoDashboardProps) {
           }));
           setCommitData(formattedCommits);
         }
-        setTotalCommitsRecent(data.totalCommits);
-
+        
         if (data.codeFrequency && data.codeFrequency.length > 0) {
           const formattedCodeFreq = data.codeFrequency.map((item: any) => ({
             date: format(fromUnixTime(item.week), 'MMM dd'),
@@ -78,7 +90,16 @@ export default function RepoDashboard({ repoName }: RepoDashboardProps) {
           setCodeFreqData(formattedCodeFreq);
         }
 
-        setBranchesCount(data.branchesCount);
+        setMetrics({
+          totalCommitsYear: data.totalCommits,
+          totalCommitsAllTime: data.totalCommitsAllTime,
+          branchesCount: data.branchesCount,
+          contributorsCount: data.contributorsCount,
+          filesCount: data.filesCount,
+          stars: data.stars,
+          forks: data.forks
+        });
+
       } catch (err: any) {
         if (isMounted) setError(err.message);
       } finally {
@@ -101,21 +122,36 @@ export default function RepoDashboard({ repoName }: RepoDashboardProps) {
         </a>
       </h2>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem', marginBottom: '2rem' }}>
-        <div style={{ background: '#f8fafc', padding: '1.5rem', borderRadius: '12px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem', flex: 1 }}>
-          <GitCommit size={32} color="#3b82f6" />
-          <span style={{ fontSize: '2rem', fontWeight: 'bold', color: '#1e293b' }}>{totalCommitsRecent}</span>
-          <span style={{ color: '#64748b', fontSize: '0.9rem' }}>Commits (Last Year)</span>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '1rem', marginBottom: '2rem' }}>
+        <div style={{ background: '#f8fafc', padding: '1rem', borderRadius: '12px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.4rem' }}>
+          <Star size={24} color="#eab308" />
+          <span style={{ fontSize: '1.4rem', fontWeight: 'bold', color: '#1e293b' }}>{metrics.stars}</span>
+          <span style={{ color: '#64748b', fontSize: '0.75rem', textAlign: 'center' }}>Stars</span>
         </div>
-        <div style={{ background: '#f8fafc', padding: '1.5rem', borderRadius: '12px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem', flex: 1 }}>
-          <GitBranch size={32} color="#10b981" />
-          <span style={{ fontSize: '2rem', fontWeight: 'bold', color: '#1e293b' }}>{branchesCount}</span>
-          <span style={{ color: '#64748b', fontSize: '0.9rem' }}>Branches</span>
+        <div style={{ background: '#f8fafc', padding: '1rem', borderRadius: '12px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.4rem' }}>
+          <GitFork size={24} color="#64748b" />
+          <span style={{ fontSize: '1.4rem', fontWeight: 'bold', color: '#1e293b' }}>{metrics.forks}</span>
+          <span style={{ color: '#64748b', fontSize: '0.75rem', textAlign: 'center' }}>Forks</span>
         </div>
-        <div style={{ background: '#f8fafc', padding: '1.5rem', borderRadius: '12px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem', flex: 1 }}>
-          <FileCode size={32} color="#f59e0b" />
-          <span style={{ fontSize: '2rem', fontWeight: 'bold', color: '#1e293b' }}>{codeFreqData.length}</span>
-          <span style={{ color: '#64748b', fontSize: '0.9rem' }}>Weeks of Code Freq</span>
+        <div style={{ background: '#f8fafc', padding: '1rem', borderRadius: '12px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.4rem' }}>
+          <GitCommit size={24} color="#3b82f6" />
+          <span style={{ fontSize: '1.4rem', fontWeight: 'bold', color: '#1e293b' }}>{metrics.totalCommitsAllTime}</span>
+          <span style={{ color: '#64748b', fontSize: '0.75rem', textAlign: 'center' }}>Total Commits</span>
+        </div>
+        <div style={{ background: '#f8fafc', padding: '1rem', borderRadius: '12px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.4rem' }}>
+          <Users size={24} color="#8b5cf6" />
+          <span style={{ fontSize: '1.4rem', fontWeight: 'bold', color: '#1e293b' }}>{metrics.contributorsCount}</span>
+          <span style={{ color: '#64748b', fontSize: '0.75rem', textAlign: 'center' }}>Contributors</span>
+        </div>
+        <div style={{ background: '#f8fafc', padding: '1rem', borderRadius: '12px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.4rem' }}>
+          <FileText size={24} color="#f97316" />
+          <span style={{ fontSize: '1.4rem', fontWeight: 'bold', color: '#1e293b' }}>{metrics.filesCount}</span>
+          <span style={{ color: '#64748b', fontSize: '0.75rem', textAlign: 'center' }}>Files</span>
+        </div>
+        <div style={{ background: '#f8fafc', padding: '1rem', borderRadius: '12px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.4rem' }}>
+          <GitBranch size={24} color="#10b981" />
+          <span style={{ fontSize: '1.4rem', fontWeight: 'bold', color: '#1e293b' }}>{metrics.branchesCount}</span>
+          <span style={{ color: '#64748b', fontSize: '0.75rem', textAlign: 'center' }}>Branches</span>
         </div>
       </div>
 
@@ -123,7 +159,7 @@ export default function RepoDashboard({ repoName }: RepoDashboardProps) {
         
         {/* Commits Chart */}
         <div style={{ height: '300px' }}>
-          <h3 style={{ fontSize: '1.1rem', marginBottom: '1rem', color: '#334155' }}>Commit Activity (Weekly)</h3>
+          <h3 style={{ fontSize: '1.1rem', marginBottom: '1rem', color: '#334155' }}>Commit Activity (Weekly, Last Year)</h3>
           {commitData.length > 0 ? (
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={commitData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
@@ -152,7 +188,7 @@ export default function RepoDashboard({ repoName }: RepoDashboardProps) {
 
         {/* Code Frequency Chart */}
         <div style={{ height: '300px' }}>
-          <h3 style={{ fontSize: '1.1rem', marginBottom: '1rem', color: '#334155' }}>Code Frequency (Additions vs Deletions)</h3>
+          <h3 style={{ fontSize: '1.1rem', marginBottom: '1rem', color: '#334155' }}>Code Frequency</h3>
           {codeFreqData.length > 0 ? (
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={codeFreqData} margin={{ top: 10, right: 10, left: -10, bottom: 0 }}>

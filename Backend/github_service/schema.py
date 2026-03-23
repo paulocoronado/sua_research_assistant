@@ -20,6 +20,11 @@ class RepoStats:
     branches_count: int
     commit_activity: List[CommitActivity]
     code_frequency: List[CodeFrequency]
+    total_commits_all_time: int
+    contributors_count: int
+    files_count: int
+    stars: int
+    forks: int
 
 @strawberry.type
 class GitHubQuery:
@@ -36,5 +41,10 @@ class GitHubQuery:
             total_commits=stats["total_commits"],
             branches_count=stats["branches_count"],
             commit_activity=commits,
-            code_frequency=code_freq
+            code_frequency=code_freq,
+            total_commits_all_time=stats["total_commits_all_time"],
+            contributors_count=stats["contributors_count"],
+            files_count=stats["files_count"],
+            stars=stats["stars"],
+            forks=stats["forks"]
         )
